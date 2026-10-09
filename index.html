@@ -11,7 +11,62 @@
 <meta property="og:image" content="media/poster.jpg">
 <meta name="theme-color" content="#0B0D12">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0D12'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%23FFA31A'/%3E%3C/svg%3E">
-<style>html,body{margin:0}body{min-height:100vh}</style>
+<style>html,body{margin:0}body{min-height:100vh}
+/* project flow diagrams */
+.charts.one{grid-template-columns:minmax(0,1fr)}
+.dgcol{background:var(--code-bg);border:1px solid var(--line);border-radius:12px;padding:10px 10px 0}
+.dgscroll{overflow-x:auto}
+.dg{display:block;width:100%;min-width:500px;height:auto}
+.dg .edge{fill:none;stroke:var(--muted);stroke-width:1.6;opacity:.75;stroke-linejoin:round}
+.dg .edge.dash{stroke-dasharray:4 4;opacity:.6}
+.dg .packet{fill:var(--amber)}.dg .packet.g{fill:var(--ok)}
+.dg .node{cursor:pointer;outline:none}
+.dg .node rect{fill:var(--panel);stroke:var(--tone,var(--muted));stroke-width:1.5;transition:fill .2s}
+.dg .node.t-svc{--tone:var(--ok)}.dg .node.t-topic{--tone:var(--c4)}.dg .node.t-dlt{--tone:var(--c5)}.dg .node.t-db{--tone:var(--muted)}.dg .node.t-dash rect{stroke-dasharray:5 4;fill:transparent}
+.dg .node:hover rect{fill:color-mix(in srgb,var(--tone,var(--muted)) 12%,var(--panel))}
+.dg .node.sel rect,.dg .node:focus-visible rect{stroke-width:3}
+.dg .node text{fill:var(--ink);font:600 11px var(--f-mono);text-anchor:middle;pointer-events:none}
+.dg .node .sub{fill:var(--muted);font-weight:400;font-size:9.5px}
+.dg .lbl{fill:var(--muted);font:400 10px var(--f-mono)}
+.dgbar{display:flex;align-items:flex-start;gap:12px;padding:10px 4px 12px;border-top:1px solid var(--line);margin-top:6px;font-size:13px;color:var(--muted);min-height:68px}
+.dgbar .info{flex:1;min-width:0}.dgbar .info b{color:var(--ink);font-family:var(--f-mono);font-weight:600}
+.btn.sm{padding:7px 13px;font-size:13px;white-space:nowrap}
+.route .pill{display:inline-block;font:500 10.5px var(--f-mono);border:1px solid var(--line);border-radius:99px;padding:2px 9px;margin-bottom:10px;color:var(--muted)}
+
+/* consumer lab */
+.labsub{max-width:60ch;color:var(--muted);margin:0 0 24px}
+.lab{padding:clamp(18px,3vw,28px)}
+.labctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:22px}
+.labctl label{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--f-mono);color:var(--muted);cursor:pointer}
+.labctl input{accent-color:var(--amber);width:16px;height:16px}
+.labgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:28px}
+.labgrid>*{min-width:0}
+.lane{display:grid;grid-template-columns:30px minmax(0,1fr) 62px;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.lane:first-child{padding-top:0}
+.lname{font:700 12px var(--f-mono);color:var(--muted)}
+.ltrack{display:flex;gap:4px;overflow:hidden;justify-content:flex-end}
+.ltrack .empty{font:12px var(--f-mono);color:var(--muted)}
+.lm{flex:none;width:28px;height:28px;border-radius:6px;font:600 10px/26px var(--f-mono);text-align:center;border:1px solid}
+.lm.done{background:var(--ok);border-color:var(--ok);color:#0B0D12;opacity:.9}
+.lm.wait{border-color:var(--amber);color:var(--amber)}
+.lm.redo{outline:2px dashed var(--amber);outline-offset:2px}
+.llag{font:500 11px var(--f-mono);color:var(--muted);text-align:right}
+.llag.hot{color:var(--amber)}
+.llegend{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font:12px var(--f-mono);color:var(--muted)}
+.llegend span{display:inline-flex;align-items:center;gap:8px}
+.llegend .lm{width:14px;height:14px;border-radius:4px}
+.lstats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.lstat{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--code-bg)}
+.lstat b{display:block;font:700 20px var(--f-mono);font-variant-numeric:tabular-nums}
+.lstat span{font-size:12px;color:var(--muted)}
+.lstat.bad b{color:var(--bad)}
+.lstatus{grid-column:1/-1;font:600 12px var(--f-mono);padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--code-bg)}
+.lstatus.up{color:var(--ok)}.lstatus.down{color:var(--bad)}
+.llog{font:12px/1.75 var(--f-mono);background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:12px;height:176px;overflow:hidden;color:var(--muted)}
+.llog .t{opacity:.65;margin-right:8px}.llog .ok{color:var(--ok)}.llog .bad{color:var(--bad)}
+.lhint{margin:20px 0 0;font-size:14px;color:var(--muted);max-width:62ch}
+@media (max-width:860px){.labgrid{grid-template-columns:minmax(0,1fr)}}
+</style>
 </head>
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +75,7 @@
 /* Concept: the portfolio is one HTTP request travelling through a Spring Boot app. The sticky rail shows scroll progress; each section is a layer with its own visualization. Headings are sized from their container (cqw) so the wide display face can never overlap a neighbour. */
 :root{
   --bg:#0B0D12; --panel:#12161E; --ink:#E8EAF0; --muted:#8A92A3; --line:#232938;
-  --amber:#FFA31A; --steel:#6FA8D6; --ok:#4ADE80; --code-bg:#0F131A;
+  --amber:#FFA31A; --steel:#6FA8D6; --ok:#4ADE80; --bad:#F87171; --code-bg:#0F131A;
   --c1:#FFA31A; --c2:#6FA8D6; --c3:#4ADE80; --c4:#C4A1FF; --c5:#FF7A90; --c6:#2DD4BF;
   --k:#FFA31A; --t:#6FA8D6; --s:#9AE6B4; --c:#5C667A;
   --f-display:'Syne','Helvetica Neue',Arial,sans-serif; --f-body:'Instrument Sans','Helvetica Neue',Arial,sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
@@ -28,12 +83,12 @@
 }
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
   --bg:#F4F2EE; --panel:#FFFFFF; --ink:#12151C; --muted:#5B6372; --line:#DAD6CE;
-  --amber:#C25E00; --steel:#2F6A99; --ok:#15803D; --code-bg:#FBFAF7;
+  --amber:#C25E00; --steel:#2F6A99; --ok:#15803D; --bad:#B91C1C; --code-bg:#FBFAF7;
   --c1:#C25E00; --c2:#2F6A99; --c3:#15803D; --c4:#7C3AED; --c5:#BE123C; --c6:#0F766E;
   --k:#B45309; --t:#1D5F8F; --s:#15803D; --c:#8A8F9B; color-scheme:light}}
 :root[data-theme="light"]{
   --bg:#F4F2EE; --panel:#FFFFFF; --ink:#12151C; --muted:#5B6372; --line:#DAD6CE;
-  --amber:#C25E00; --steel:#2F6A99; --ok:#15803D; --code-bg:#FBFAF7;
+  --amber:#C25E00; --steel:#2F6A99; --ok:#15803D; --bad:#B91C1C; --code-bg:#FBFAF7;
   --c1:#C25E00; --c2:#2F6A99; --c3:#15803D; --c4:#7C3AED; --c5:#BE123C; --c6:#0F766E;
   --k:#B45309; --t:#1D5F8F; --s:#15803D; --c:#8A8F9B; color-scheme:light}
 
@@ -53,8 +108,8 @@ h2{font-size:clamp(28px,8cqw,68px);font-weight:800;letter-spacing:-.02em}
 
 /* rail (shared by sticky bar and tracer) */
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-inline:calc(-1*clamp(16px,4vw,48px));padding:12px clamp(16px,4vw,48px) 10px}
-.rail{max-width:1100px;margin-inline:auto;position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
-.rail .track{position:absolute;left:calc(100%/12);right:calc(100%/12);top:9px;height:2px;background:var(--line)}
+.rail{--n:6;max-width:1100px;margin-inline:auto;position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.rail .track{position:absolute;left:calc(100%/(2*var(--n)));right:calc(100%/(2*var(--n)));top:9px;height:2px;background:var(--line)}
 .rail .fill{position:absolute;left:0;top:0;height:100%;width:0;background:var(--amber)}
 .rail .packet{position:absolute;top:-6px;left:0;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px color-mix(in srgb,var(--amber) 25%,transparent),0 0 18px var(--amber);z-index:2}
 .rail .n{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;min-width:0}
@@ -109,7 +164,7 @@ h2{font-size:clamp(28px,8cqw,68px);font-weight:800;letter-spacing:-.02em}
 .tracer .rail .track{top:14px}
 .tracer .rail .packet{top:-6px}
 .tracer .n.hit i{border-color:var(--amber);background:color-mix(in srgb,var(--amber) 22%,var(--bg))}
-.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:20px;margin-top:30px}
+.split{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:20px;margin-top:30px}
 .wf{display:grid;gap:8px;align-content:start}
 .wfr{display:grid;grid-template-columns:78px minmax(0,1fr) 46px;gap:10px;align-items:center;font:400 11.5px var(--f-mono)}
 .wfr .lane{position:relative;height:20px;background:color-mix(in srgb,var(--line) 55%,transparent);border-radius:5px;overflow:hidden}
@@ -160,7 +215,7 @@ pre{margin:0;font:inherit;white-space:pre}
 .route .more{display:none;padding:2px 18px 24px}
 .route[data-open="true"] .more{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:26px}
 .more>*{min-width:0}
-.more h3{font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+.more h3{font-size:clamp(24px,3.4vw,36px);font-weight:650;letter-spacing:-.02em;margin-bottom:10px}
 .more p{margin:0 0 14px;color:var(--muted);font-size:15px}
 .more ul{margin:0 0 14px;padding-left:18px;font-size:14px}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
@@ -173,11 +228,11 @@ pre{margin:0;font:inherit;white-space:pre}
 .charts .cbox:nth-child(2) svg{max-width:130px;margin-inline:auto}
 .kpis{display:grid;gap:8px;grid-column:1/-1;grid-template-columns:repeat(3,minmax(0,1fr))}
 .kpis div{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:500 10.5px var(--f-mono);color:var(--muted)}
-.kpis b{display:block;font:800 20px var(--f-display);color:var(--ink);letter-spacing:-.02em}
+.kpis b{display:block;font:650 20px var(--f-display);color:var(--ink);letter-spacing:-.02em}
 
 /* service */
 .gwrap{position:relative;border:1px solid var(--line);border-radius:16px;background:var(--code-bg);overflow:hidden}
-#graph{display:block;width:100%;height:480px;touch-action:pan-y;cursor:grab}
+#graph{display:block;width:100%;height:560px;touch-action:pan-y;cursor:grab}
 .glegend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 12px}
 .glegend span{display:flex;align-items:center;gap:7px}
 .glegend i{width:12px;height:12px;border-radius:50%;display:inline-block}
@@ -225,7 +280,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
   .route[data-open="true"] .more{grid-template-columns:minmax(0,1fr)}
   .route>button{grid-template-columns:48px minmax(0,1fr) 14px;padding:16px 12px}
   .route .more{padding:0 14px 20px}
-  #graph{height:520px}
+  #graph{height:620px}
 }
 @media (max-width:520px){
   .rail .n span{font-size:9px;letter-spacing:-.02em}
@@ -240,12 +295,13 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
 </style>
 
 <header class="bar">
-  <div class="rail" id="pipe">
+  <div class="rail" id="pipe" style="--n:7">
     <div class="track"><div class="fill" id="fill"></div><div class="packet" id="packet"></div></div>
     <a class="n on" href="#client"><i></i><span>Client</span></a>
     <a class="n" href="#filter"><i></i><span>Filter</span></a>
     <a class="n" href="#controller"><i></i><span>Controller</span></a>
     <a class="n" href="#service"><i></i><span>Service</span></a>
+    <a class="n" href="#lab"><i></i><span>Broker</span></a>
     <a class="n" href="#repository"><i></i><span>Repository</span></a>
     <a class="n" href="#response"><i></i><span>200 OK</span></a>
   </div>
@@ -258,7 +314,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
         <div class="boot" aria-label="Application startup log"><span class="l" style="animation-delay:.05s"><em>  .   ____          _            __ _ _</em></span><span class="l" style="animation-delay:.15s"><b>:: Portfolio ::</b>                (v2026.1)</span><span class="l" style="animation-delay:.3s">INFO  Starting PortfolioApplication using Java 21</span><span class="l" style="animation-delay:.45s">INFO  Tomcat started on port <em>8080</em> (http)</span><span class="l" style="animation-delay:.6s">INFO  Started in <b>1.2 seconds</b>. Ready for requests.</span></div>
         <span class="mono">Java Developer · 4 years · Immediate joiner</span>
         <h1>Rohan<span>Tibile.</span></h1>
-        <p class="lede">I build <b>high-throughput, event-driven microservices</b> in Java 17, Spring Boot and Kafka. They serve <b>50,000+ users</b> and <b>80K+ monthly transactions</b> on insurance-tech platforms. Scroll to follow one request through everything I build.</p>
+        <p class="lede">I build <b>high-throughput, event-driven microservices</b> in Java 17, Spring Boot and Kafka. They serve <b>50K+ users</b> and <b>80K+ monthly transactions</b> on insurance-tech platforms. Scroll to follow one request through everything I build.</p>
         <div class="row"><a class="btn main" href="#controller">See my endpoints →</a><a class="btn" href="#response">Contact</a></div>
       </div>
       <div class="camwrap">
@@ -304,11 +360,12 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
       </div>
       <div>
         <p class="big">Four years of keeping high-transaction insurance systems fast, observable and correct.</p>
-        <p style="color:var(--muted);margin:0 0 24px">I'm strongest in Java 17, Spring Boot and Apache Kafka, with hands-on depth in multithreaded systems, query optimization and production observability with Grafana and Loki. I've shipped 30+ production releases for Tata AIA Life Insurance through Streebo.</p>
+        <p style="color:var(--muted);margin:0 0 24px">I'm strongest in Java 17, Spring Boot and Apache Kafka, with hands-on depth in microservices, multithreaded systems, query optimization and production observability with Grafana and Loki. I've shipped 30+ production releases for Tata AIA Life Insurance through Streebo.</p>
         <div class="chain">
-          <div><span>Principal</span><span>rohan.tibile</span></div>
-          <div><span>Roles</span><span>ROLE_BACKEND, ROLE_FULLSTACK</span></div>
-          <div><span>Based in</span><span>Pune, India</span></div>
+          <div><span>Principal</span><span>Rohan Tibile</span></div>
+          <div><span>Roles</span><span>Java Developer, Java Backend Developer</span></div>
+          <div><span>Based in</span><span>Pune, Maharashtra, India</span></div>
+          <div><span>Open in</span><span>Pune, Mumbai, Bengaluru</span></div>
           <div><span>Experience</span><span>4 years</span></div>
           <div><span>Auth status</span><span class="ok">200 · immediate joiner</span></div>
         </div>
@@ -320,7 +377,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
     <div class="layer"><span class="tag">@RestController</span><span class="mono">Route table · tap a route</span></div>
     <h2 style="margin-bottom:34px">Endpoints I've<br>shipped.</h2>
     <div class="routes" id="routes"></div>
-    <p class="mono" style="margin-top:12px">Client work at Streebo Pvt Ltd for Tata AIA Life Insurance. Percentages and timings come from my resume.</p>
+    <p class="mono" style="margin-top:12px">The first three are client work at Streebo Pvt Ltd for Tata AIA Life Insurance, with percentages and timings from my resume. The last two are personal projects. Tap a component in their diagrams.</p>
   </section>
 
   <section id="service">
@@ -331,6 +388,32 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
     <div class="code" id="code" role="img" aria-label="Java class listing Rohan's skills"></div>
   </section>
 
+  <section id="lab">
+    <div class="layer"><span class="tag">@KafkaListener</span><span class="mono">Broker · delivery guarantees</span></div>
+    <h2 style="margin-bottom:16px">Break the consumer,<br>watch it recover.</h2>
+    <p class="labsub">A small simulation of the guarantees I design for: keyed partitions, manual offset commits and idempotent consumers.</p>
+    <div class="lab card">
+      <div class="labctl">
+        <button class="btn main sm" id="labRun" type="button">Pause</button>
+        <button class="btn sm" id="labBurst" type="button">Send 10 orders</button>
+        <button class="btn sm" id="labCrash" type="button">Crash consumer</button>
+        <label><input type="checkbox" id="labIdem" checked> Idempotent consumer</label>
+        <button class="btn sm" id="labReset" type="button">Reset</button>
+      </div>
+      <div class="labgrid">
+        <div>
+          <div id="labLanes" aria-live="off"></div>
+          <div class="llegend"><span><i class="lm done"></i>committed</span><span><i class="lm wait"></i>waiting</span><span><i class="lm wait redo"></i>will be redelivered</span></div>
+        </div>
+        <div>
+          <div class="lstats" id="labStats"></div>
+          <div class="llog" id="labLog" role="log" aria-label="Simulation event log"></div>
+        </div>
+      </div>
+      <p class="lhint">Try this: crash the consumer, wait a few seconds, then restart it. The last messages were processed but never committed, so Kafka delivers them again. With the idempotent consumer on they're dropped. Switch it off and they're applied twice.</p>
+    </div>
+  </section>
+
   <section id="repository">
     <div class="layer"><span class="tag">@Repository</span><span class="mono">Persistence · what's stored</span></div>
     <h2 style="margin-bottom:26px">Query my<br>experience.</h2>
@@ -338,10 +421,10 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
     <div class="tblw"><table>
       <thead><tr><th>period</th><th>role</th><th>where</th><th>what_i_did</th></tr></thead>
       <tbody>
-        <tr><td>Jan 2025 – Jun 2026</td><td>Technical Consultant (Full Stack Developer)</td><td>Streebo · Tata AIA Life</td><td>Kafka microservices for agent compensation, query tuning, Grafana and Loki observability</td></tr>
-        <tr><td>Jun 2022 – Jan 2025</td><td>Associate Technical Consultant (Full Stack Developer)</td><td>Streebo · Tata AIA Life</td><td>Onboarding and KYC flows, calculation engines, 60+ automated tests</td></tr>
-        <tr><td>2022</td><td>MCA</td><td>JSPM Tech Campus, Narhe · SPPU</td><td>Master of Computer Applications</td></tr>
-        <tr><td>2018</td><td>B.Sc Computer Science</td><td>MIT ACSC Alandi · SPPU</td><td>Bachelor of Science</td></tr>
+        <tr><td>Jan 2025 – Jun 2026</td><td>Technical Consultant (Full Stack Developer)</td><td>Streebo · Tata AIA Life</td><td>Built 3 Kafka microservices using Java 17, Spring Boot, and REST APIs, supporting 80K+ monthly transactions and improving synchronization by 40%.<br>Optimized multithreading and PostgreSQL, reducing processing time to 5–10 minutes; developed notification workflows and reduced incident triage by 30% using Grafana/Loki.<br>Supported 30+ production releases and managed 12–15 Kafka topics with reliable CI/CD delivery.</td></tr>
+        <tr><td>Jun 2022 – Jan 2025</td><td>Associate Technical Consultant (Full Stack Developer)</td><td>Streebo · Tata AIA Life</td><td>Built responsive AngularJS UI and Java 17/Spring Boot onboarding workflows, integrating KYC auto-fill to reduce manual entry and onboarding drop-offs by 50%.<br>Developed insurance premium calculation engines and optimized SQL queries, reducing policy response times from 900ms to 600ms.<br>Resolved 80+ production issues and authored 60+ JUnit 5/Mockito test cases to improve system stability and reliability.</td></tr>
+        <tr><td>2022</td><td>MCA</td><td>JSPM Tech Campus, Narhe<br>(Savitribai Phule Pune University)</td><td>Master's in Computer Applications</td></tr>
+        <tr><td>2018</td><td>B.Sc Computer Science</td><td>MIT ACSC, Alandi<br>(Savitribai Phule Pune University)</td><td>Bachelor's in Computer Science</td></tr>
       </tbody>
     </table></div>
     <div class="viz2">
@@ -392,7 +475,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
     var y=scrollY,T=tops(),k=0;
     T.forEach(function(v,i){if(y>=v-1)k=i});
     var t=k<T.length-1?clamp((y-T[k])/(T[k+1]-T[k]),0,1):0,p=k+t;
-    bfill.style.width=(p/5*100)+'%';bpacket.style.left=(p/5*100)+'%';
+    var dv=bnodes.length-1;bfill.style.width=(p/dv*100)+'%';bpacket.style.left=(p/dv*100)+'%';
     bnodes.forEach(function(n,i){n.classList.toggle('on',i===k);n.classList.toggle('done',i<k)});
   }
   addEventListener('scroll',railUpdate,{passive:true});addEventListener('resize',railUpdate);railUpdate();
@@ -408,10 +491,10 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
 
   /* ================= request tracer ================= */
   var API={
-    '/api/developer':{data:{name:'Rohan Tibile',role:'Java Developer',experience_years:4,location:'Pune, India',availability:'IMMEDIATE_JOINER'},t:[2,1,2,3,5]},
-    '/api/skills':{data:{core:['Java 8 / 17','Spring Boot 3','Spring Data JPA','Hibernate'],messaging:['Apache Kafka'],databases:['PostgreSQL','MySQL','Azure Databricks'],devops:['Docker','Jenkins','Azure DevOps','Grafana','Loki'],testing:['JUnit 5','Mockito','Postman']},t:[2,1,3,6,8]},
-    '/api/projects':{data:[{id:1,name:'Agent Compensation Platform',stack:'Java 17, Spring Boot, Kafka'},{id:2,name:'Onboarding & KYC Flows',stack:'Spring Boot, AngularJS'},{id:3,name:'Premium & Sum-Assured Engines',stack:'Spring Data JPA, Hibernate'}],t:[2,2,6,11,16]},
-    '/api/contact':{data:{email:'tibilerohan3@gmail.com',phone:'7057271066',linkedin:'linkedin.com/in/rohantibile',location:'Pune, India'},t:[2,1,2,2,3]}
+    '/api/developer':{data:{name:'Rohan Tibile',role:'Java Developer',experience_years:4,location:'Pune, Maharashtra,India',availability:'IMMEDIATE_JOINER'},t:[2,1,2,3,5]},
+    '/api/skills':{data:{core:'Java 8 / 11 / 17, Spring Boot 3, Spring Data JPA, Hibernate',Architecture:'Microservices, RESTful APIs, Event-Driven Architecture, Multithreading & Concurrency',messaging:'Apache Kafka',databases:'PostgreSQL, MySQL, Azure Databricks',devops:'Docker, Jenkins, Azure DevOps, Grafana, Loki',frontend:'HTML5, CSS3, AngularJS',testing:'JUnit 5, Mockito , Postman'},t:[2,1,3,6,8]},
+    '/api/projects':{data:[{id:1,name:'Agent Master and Onboarding System, Customer Master',stack:'Java 17, Spring Boot, Kafka, Azure Databricks'},{id:2,name:'TATA AIA Insurance Platforms',stack:'Java 17, Spring Boot, Spring Data JPA, Hibernate, Microservices, HTML, CSS, AngularJS, SQL, PostgreSQL'},{id:3,name:'Payment fraud detection',stack:'Java 17, Spring Boot, Kafka,Spring Data JPA, SQL'}],t:[2,2,6,11,16]},
+    '/api/contact':{data:{email:'tibilerohan3@gmail.com',phone:'7057271066',linkedin:'https://www.linkedin.com/in/rohantibile',location:'Pune, Maharashtra,India'},t:[2,1,2,2,3]}
   };
   var LAY=['Filter','Controller','Service','Repository','Database'],COL=['--c1','--c2','--c3','--c4','--c5','--c6'];
   var tn=[].slice.call(document.querySelectorAll('#trail .n')),tpacket=$('tpacket'),tfill=$('tfill');
@@ -490,9 +573,33 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
 
   /* ================= projects with before/after charts ================= */
   var PROJ=[
-    {m:'GET',p:'/api/projects/agent-compensation',s:'insurance-tech · Kafka',t:'Agent Compensation Platform',d:'Event-driven microservices on Java 17 and Spring Boot that run agent compensation for Tata AIA Life Insurance (Agent Master, Onboarding and Customer Master).',b:['3 Kafka-based microservices across 12–15 production topics','Cross-database state sync 40% faster for real-time payment validation','Critical processing cut from hours to 5–10 minutes with PostgreSQL tuning','Grafana and Loki observability: incident triage 30% faster','Database-driven nudge framework for timely alerts and notifications'],tags:['Java 17','Spring Boot 3','Kafka','PostgreSQL','Multithreading','Grafana','Loki','Jenkins'],ba:[['Cross-database sync speed',100,140,''],['Incident triage time',100,70,'']],note:'Indexed: baseline = 100',ring:[40,'faster state sync'],k:[['50,000+','active users'],['80,000+','monthly txns'],['30+','deployments']]},
-    {m:'GET',p:'/api/projects/onboarding-kyc',s:'insurance platforms · AngularJS',t:'Onboarding &amp; KYC Flows',d:'Customer and agent onboarding for Tata AIA Life Insurance, from a responsive AngularJS interface to multi-step validation in Spring Boot.',b:['KYC auto-population fills over half of each profile','Payment gateway, redirection and transaction-recovery flows redesigned','Multi-step validation across financial, health, occupational and family data','20+ critical and 60+ low-medium production issues resolved'],tags:['Java 17','Spring Boot','AngularJS','HTML5','CSS3','JavaScript'],ba:[['Onboarding drop-offs',100,50,'']],note:'Indexed: baseline = 100',ring:[50,'fewer drop-offs'],k:[['50%','fewer drop-offs'],['20+','critical fixes'],['60+','minor fixes']]},
-    {m:'POST',p:'/api/projects/premium-engines',s:'calculation · Spring Data JPA',t:'Premium &amp; Sum-Assured Engines',d:'Insurance calculation engines driven by product-specific schemas, backed by tuned data access and a solid automated test suite.',b:['Premium and sum-assured calculation with Spring Data JPA and Hibernate','Critical policy workflow responses cut from ~900 ms to ~600 ms','60+ automated tests with JUnit 5 and Mockito for underwriting logic'],tags:['Spring Data JPA','Hibernate','SQL','JUnit 5','Mockito'],ba:[['Policy workflow response',900,600,' ms']],note:'Measured response time',ring:[33,'faster responses'],k:[['60+','automated tests'],['~600 ms','policy response'],['2023','excellence award']]}
+    {m:'GET',p:'/api/projects/agentMaster',s:'event-driven architecture kafka based',t:'Agent Master and Onboarding System',d:'Event-driven microservices on Java 17, Spring Boot and Apache Kafka that run agent compensation for Tata AIA Life Insurance (Agent Master, Onboarding and Customer Master).',b:['3 Kafka-based microservices across 12–15 production topics','Cross-database state sync 40% faster for real-time payment validation','Critical processing cut from hours to 5–10 minutes with PostgreSQL tuning','Grafana and Loki observability: incident triage 30% faster','Database-driven nudge framework for timely alerts and notifications'],tags:['Java 17','Spring Boot 3','Kafka','PostgreSQL','Multithreading','Grafana','Loki','Jenkins','RESTful APIs'],ba:[['Cross-database sync speed',100,140,''],['Incident triage time',100,70,'']],note:'Indexed: baseline = 100',ring:[40,'faster state sync'],k:[['50,000+','active users'],['80,000+','monthly txns'],['30+','deployments']]},
+    {m:'GET',p:'/api/projects/sellonline',s:'TATA AIA insuance portal website',t:'TATA AIA Life Insurance website',d:'Customer and agent onboarding for Tata AIA Life Insurance, from a responsive UI interface to multi-step validation in Java, Spring Boot microservices.',b:['KYC auto-population fills over half of each profile','Payment gateway, redirection and transaction-recovery flows redesigned','Multi-step validation across financial, health, occupational and family data','20+ critical and 60+ low-medium production issues resolved','Premium and sum-assured calculation with Spring Data JPA and Hibernate','Critical policy workflow responses cut from ~900 ms to ~600 ms','60+ automated tests with JUnit 5 and Mockito for underwriting logic'],tags:['Java 17','Spring Boot','Microservices','RESTful APIs','AngularJS','HTML5','CSS3','JavaScript','SQL','PostgreSQL','Grafana','JUnit'],ba:[['Onboarding drop-offs',100,50,'']],note:'Indexed: baseline = 100',ring:[50,'fewer drop-offs'],k:[['50%','fewer drop-offs'],['20+','critical fixes'],['60+','minor fixes'],['60+','automated tests'],['~600 ms','policy response'],['2023','excellence award']]},
+    {m:'POST',p:'/api/projects/payment-fraud',s:'personal project · Kafka',t:'Payment Fraud Detection',pill:'Personal project',d:'Two Spring Boot services that decide whether a payment goes through. The payment service publishes events, the fraud service scores them, and the verdict comes back over Kafka.',b:['Payment service (port 8081) takes POST /payments and moves each payment from PENDING to its final status','Fraud service (port 8082) consumes payment-events and applies 3 fraud rules through the Strategy pattern','Idempotent processing, so a redelivered event never produces a second verdict','Verdicts and card history live in their own frauddb, separate from paymentdb','A failing event goes to the payment-events.DLT dead-letter topic after 3 retries','Docker Compose runs Kafka, Zookeeper, MySQL and Kafka UI for inspecting topics'],tags:['Java','Spring Boot','Kafka','MySQL','Docker Compose','Zookeeper','Kafka UI','Strategy pattern'],
+      dg:{w:640,h:404,nodes:[
+        {id:'client',label:'Client (Postman)',x:20,y:14,w:160,h:44,tone:'db',desc:'Sends POST /payments to the payment service.'},
+        {id:'dlt',label:'payment-events.DLT',x:240,y:14,w:160,h:44,tone:'dlt',desc:'Dead-letter topic. An event that still fails after 3 retries is parked here instead of blocking the partition.'},
+        {id:'pay',label:'Payment service',sub:['Port 8081 · REST API','Producer + consumer','PENDING to final status'],x:20,y:116,w:180,h:84,tone:'svc',desc:'REST API that stores the payment as PENDING, publishes it to payment-events, then consumes fraud-decisions to set the final status.'},
+        {id:'pe',label:'payment-events',x:240,y:112,w:160,h:40,tone:'topic',desc:'Kafka topic carrying new payments from the payment service to the fraud service.'},
+        {id:'fd',label:'fraud-decisions',x:240,y:176,w:160,h:40,tone:'topic',desc:'Kafka topic carrying the fraud verdict back to the payment service.'},
+        {id:'fraud',label:'Fraud service',sub:['Port 8082 · consumer','3 rules · Strategy pattern','Idempotent processing'],x:440,y:116,w:180,h:84,tone:'svc',desc:'Consumes payment-events and runs 3 fraud rules, each a strategy. Idempotent processing means a redelivered event is recognised and not scored twice.'},
+        {id:'pdb',label:'MySQL paymentdb',sub:['Payments, status'],x:20,y:286,w:180,h:56,tone:'db',desc:'Stores each payment and its current status.'},
+        {id:'kui',label:'Kafka UI',sub:['localhost:8080'],x:240,y:286,w:160,h:56,tone:'db',desc:'Web console for browsing topics and messages while the stack runs locally.'},
+        {id:'fdb',label:'MySQL frauddb',sub:['Verdicts, card history'],x:440,y:286,w:180,h:56,tone:'db',desc:'Stores every verdict and the card history the fraud rules read.'},
+        {id:'dc',label:'Docker Compose: Kafka, Zookeeper, MySQL, Kafka UI',x:20,y:360,w:600,h:34,tone:'dash',desc:'One docker compose up starts the whole local environment.'}],
+      edges:[
+        {d:'M100,58 V116',flow:1},{d:'M200,132 H240',flow:1},{d:'M400,132 H440',flow:1},{d:'M440,196 H400',flow:1,g:1},{d:'M240,196 H200',flow:1,g:1},
+        {d:'M110,200 V286',flow:1},{d:'M530,200 V286',flow:1,g:1},{d:'M530,116 V36 H400',dash:1},{d:'M320,286 V216',dash:1}],
+      labels:[{x:108,y:92,t:'POST /payments'},{x:542,y:78,t:'after 3 retries'}]},
+    k:[['2','services · 8081 and 8082'],['3','fraud rules'],['3 retries','then dead-letter']]},
+    {m:'POST',p:'/api/projects/order-notification',s:'personal project · Kafka',t:'Real-Time Order Notification',pill:'Personal project',d:'Decoupled event-driven microservices with zero message loss. The order service saves an order and publishes an event, and the notification service reacts to it.',b:['Two fully decoupled services, with no direct dependency between Order and Notification','Idempotency checks and orderId partition keying enforce strict per-order event ordering','Zero message loss validated on KRaft-mode Kafka in Docker-composed test environments'],tags:['Java 17','Spring Boot 3.2','Kafka (KRaft)','MySQL','Docker','JUnit 5'],
+      dg:{w:640,h:176,nodes:[
+        {id:'order',label:'Order Svc',sub:['MySQL write'],x:20,y:50,w:170,h:70,tone:'svc',desc:'Persists the order to MySQL, then publishes an order event.'},
+        {id:'topic',label:'Kafka Topic',sub:['orderId key'],x:235,y:50,w:170,h:70,tone:'topic',desc:'Keyed by orderId, so every event for one order lands on the same partition and stays in order.'},
+        {id:'notif',label:'Notification Svc',sub:['async consumer'],x:450,y:50,w:170,h:70,tone:'svc',desc:'Consumes asynchronously with idempotency checks, so redelivered events never notify twice.'}],
+      edges:[{d:'M190,85 H235',flow:1},{d:'M405,85 H450',flow:1,g:1}],
+      labels:[]},
+    k:[['2','decoupled services'],['orderId','partition key'],['0 lost','in Docker test runs']]}
   ];
   function beforeAfter(host,items,note){
     var w=320,rowH=58,h=items.length*rowH+4,maxw=230,out='';
@@ -508,13 +615,54 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
     var r=34,c=2*Math.PI*r,d=pct/100*c;
     return '<svg viewBox="0 0 100 100" role="img" aria-label="'+label+' '+pct+'%"><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="var(--line)" stroke-width="9"/><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="var(--ok)" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+d+' '+(c-d)+'" transform="rotate(-90 50 50)"/><text x="50" y="55" text-anchor="middle" style="font:800 19px var(--f-display);fill:var(--ink)">'+pct+'%</text></svg><span class="mono" style="margin:6px 0 0;text-align:center;font-size:10px">'+label+'</span>';
   }
-  var rt=$('routes');
+  var rt=$('routes'),DG=[],dgStarted=false,REDUCE=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function dgSVG(x){
+    var g=x.dg,nodes='',edges='',pk='',lbl='';
+    g.edges.forEach(function(e){edges+='<path class="edge'+(e.dash?' dash':'')+'" d="'+e.d+'"/>'});
+    g.edges.forEach(function(e){if(e.flow)pk+='<circle class="packet'+(e.g?' g':'')+'" r="4" opacity="0"/>'});
+    g.labels.forEach(function(l){lbl+='<text class="lbl" x="'+l.x+'" y="'+l.y+'">'+esc(l.t)+'</text>'});
+    g.nodes.forEach(function(n){
+      var subs=n.sub||[],ly=n.h/2+4-subs.length*7,t='<text x="'+n.w/2+'" y="'+ly+'">'+esc(n.label)+'</text>';
+      subs.forEach(function(sb,k){t+='<text class="sub" x="'+n.w/2+'" y="'+(ly+14*(k+1))+'">'+esc(sb)+'</text>'});
+      nodes+='<g class="node t-'+n.tone+'" tabindex="0" role="button" data-node="'+n.id+'" aria-label="'+esc(n.label)+': '+esc(n.desc)+'" transform="translate('+n.x+','+n.y+')"><rect width="'+n.w+'" height="'+n.h+'" rx="9"/>'+t+'</g>';
+    });
+    return '<div class="dgscroll"><svg class="dg" viewBox="0 0 '+g.w+' '+g.h+'" role="group" aria-label="Architecture diagram of '+esc(x.t)+'">'+edges+lbl+pk+nodes+'</svg></div><div class="dgbar"><button class="btn sm" data-play type="button">'+(REDUCE?'Play flow':'Pause flow')+'</button><span class="info" aria-live="polite">Select a component to see what it does.</span></div>';
+  }
+  function dgInit(card,x){
+    var svg=card.querySelector('.dg'),paths=[].slice.call(svg.querySelectorAll('.edge')).filter(function(p){return !p.classList.contains('dash')}),
+        pk=[].slice.call(svg.querySelectorAll('.packet')),st={paths:paths,pk:pk,lens:[],playing:!REDUCE,visible:false};
+    DG.push(st);
+    new IntersectionObserver(function(es){st.visible=es[0].isIntersecting},{threshold:.1}).observe(svg);
+    var btn=card.querySelector('[data-play]'),info=card.querySelector('.info');
+    btn.addEventListener('click',function(){st.playing=!st.playing;btn.textContent=st.playing?'Pause flow':'Play flow'});
+    function pick(g){
+      [].forEach.call(svg.querySelectorAll('.node'),function(n){n.classList.toggle('sel',n===g)});
+      var n=x.dg.nodes.filter(function(q){return q.id===g.dataset.node})[0];
+      info.innerHTML='<b>'+esc(n.label)+'.</b> '+esc(n.desc);
+    }
+    [].forEach.call(svg.querySelectorAll('.node'),function(g){
+      g.addEventListener('click',function(){pick(g)});
+      g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(g)}});
+    });
+    if(!dgStarted){dgStarted=true;(function frame(t){
+      DG.forEach(function(d){
+        if(!d.visible||!d.playing)return;
+        d.pk.forEach(function(c,i){
+          if(!d.lens[i])d.lens[i]=d.paths[i].getTotalLength();
+          var ph=((t/3000)+i*.19)%1,pt=d.paths[i].getPointAtLength(ph*d.lens[i]);
+          c.setAttribute('cx',pt.x);c.setAttribute('cy',pt.y);c.setAttribute('opacity',(ph<.06||ph>.94)?0:1);
+        });
+      });
+      requestAnimationFrame(frame);
+    })(0)}
+  }
   PROJ.forEach(function(x,i){
     var d=document.createElement('div');d.className='route';d.dataset.open=i===0;
+    var kp=x.k.map(function(k){return '<div><b>'+k[0]+'</b>'+k[1]+'</div>'}).join('');
+    var right=x.dg?'<div class="charts one"><div class="dgcol">'+dgSVG(x)+'</div><div class="kpis">'+kp+'</div></div>':'<div class="charts"><div class="cbox"><span class="mono">before → after</span><div class="lc"></div></div><div class="cbox">'+ring(x.ring[0],x.ring[1])+'</div><div class="kpis">'+kp+'</div></div>';
     d.innerHTML='<button aria-expanded="'+(i===0)+'"><span class="m" style="'+(x.m==='POST'?'background:var(--steel)':'')+'">'+x.m+'</span><span class="p">'+x.p+' <small>// '+x.s+'</small></span><span class="ch">▶</span></button>'+
-      '<div class="more"><div><h3>'+x.t+'</h3><p>'+x.d+'</p><ul>'+x.b.map(function(l){return '<li>'+l+'</li>'}).join('')+'</ul><div class="tags">'+x.tags.map(function(t){return '<span>'+t+'</span>'}).join('')+'</div></div>'+
-      '<div class="charts"><div class="cbox"><span class="mono">before → after</span><div class="lc"></div></div><div class="cbox">'+ring(x.ring[0],x.ring[1])+'</div><div class="kpis">'+x.k.map(function(k){return '<div><b>'+k[0]+'</b>'+k[1]+'</div>'}).join('')+'</div></div></div>';
-    beforeAfter(d.querySelector('.lc'),x.ba,x.note);
+      '<div class="more"><div>'+(x.pill?'<span class="pill">'+x.pill+'</span>':'')+'<h3>'+x.t+'</h3><p>'+x.d+'</p><ul>'+x.b.map(function(l){return '<li>'+l+'</li>'}).join('')+'</ul><div class="tags">'+x.tags.map(function(t){return '<span>'+t+'</span>'}).join('')+'</div></div>'+right+'</div>';
+    if(x.dg)dgInit(d,x);else beforeAfter(d.querySelector('.lc'),x.ba,x.note);
     d.querySelector('button').addEventListener('click',function(){
       [].forEach.call(rt.children,function(r){var o=r===d&&r.dataset.open!=='true';r.dataset.open=o;r.querySelector('button').setAttribute('aria-expanded',o)});
     });
@@ -527,12 +675,12 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
     function node(id,label,type,extra){idx[id]=N.length;N.push(Object.assign({id:id,label:label,type:type,x:0,y:0,vx:0,vy:0,r:10,deg:0,fixed:false},extra||{}))}
     function link(a,b,len){E.push({a:idx[a],b:idx[b],len:len});N[idx[a]].deg++;N[idx[b]].deg++}
     node('me','ROHAN','me');
-    node('comp','Agent Compensation','project');node('kyc','Onboarding & KYC','project');node('eng','Premium Engines','project');
-    [['java','Java 17'],['spring','Spring Boot 3'],['kafka','Kafka'],['pg','PostgreSQL'],['mt','Multithreading'],['graf','Grafana'],['loki','Loki'],['cicd','Jenkins / CI-CD'],['rest','REST APIs'],['ang','AngularJS'],['web','HTML5 / CSS3'],['jpa','Spring Data JPA'],['hib','Hibernate'],['junit','JUnit 5'],['mock','Mockito'],['sql','SQL tuning']].forEach(function(s){node(s[0],s[1],'skill')});
+    node('comp','Agent Master & Onboarding','project');node('kyc','SellOnline TATA AIA','project');node('eng','Payment Fraud Detection','project');
+    [['java','Java 17'],['spring','Spring Boot 3'],['kafka','Kafka'],['pg','PostgreSQL'],['mt','Multithreading'],['graf','Grafana'],['loki','Loki'],['cicd','Jenkins / CI-CD'],['rest','REST APIs'],['ang','AngularJS'],['web','HTML5 / CSS3'],['jpa','Spring Data JPA'],['hib','Hibernate'],['junit','JUnit 5'],['mock','Mockito'],['sql','SQL/Query Optimization'],['databricks','Azure Databricks']].forEach(function(s){node(s[0],s[1],'skill')});
     node('genai','GenAI for Java','skill',{learn:1});
     ['comp','kyc','eng'].forEach(function(p){link('me',p,120)});
     link('me','genai',150);
-    var U={comp:['java','spring','kafka','pg','mt','graf','loki','cicd','rest'],kyc:['java','spring','ang','web','rest'],eng:['java','spring','jpa','hib','junit','mock','sql']};
+    var U={comp:['java','spring','kafka','pg','mt','graf','loki','cicd','rest','databricks','sql'],kyc:['java','spring','ang','web','rest','pg','sql','junit','mock','jpa','hib'],eng:['java','spring','jpa','hib','sql']};
     Object.keys(U).forEach(function(p){U[p].forEach(function(s){link(p,s,95)})});
     N.forEach(function(n){n.r=n.type==='me'?30:n.type==='project'?22:7+Math.min(n.deg,3)*2.2});
     function size(){
@@ -608,6 +756,80 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin
     addEventListener('resize',function(){var ow=W;W=0;var keep=N.map(function(n){return [n.x/ow,n.y/H]});size();});
     size();
     window.__redrawGraph=draw;
+  })();
+
+  /* ================= consumer lab ================= */
+  (function(){
+    var lanesEl=$('labLanes'),statsEl=$('labStats'),logEl=$('labLog'),runBtn=$('labRun'),crashBtn=$('labCrash'),idem=$('labIdem');
+    var N=3,S,running=!REDUCE,inView=false;
+    runBtn.textContent=running?'Pause':'Run';
+    function lag(){return S.logs.reduce(function(a,l,p){return a+l.length-S.commit[p]},0)}
+    function log(t,c,kind){S.lines.push({t:t,c:c||'',kind:kind||'',ts:new Date().toTimeString().slice(0,8)});if(S.lines.length>8)S.lines.shift()}
+    function reset(){
+      S={logs:[[],[],[]],commit:[0,0,0],seen:{},redo:{},alive:true,produced:0,processed:0,dropped:0,applied:0,seq:1,lines:[]};
+      crashBtn.textContent='Crash consumer';
+      log('Cluster ready: 3 partitions, 1 consumer, topic keyed by orderId.');
+      produce(9);consume();consume();consume();
+      render();
+    }
+    function produce(n){
+      for(var i=0;i<n;i++){
+        var no=1000+Math.floor(Math.random()*60),p=no%N;
+        S.logs[p].push({eid:'e'+S.seq++,order:'ORD-'+no,off:S.logs[p].length});S.produced++;
+      }
+    }
+    function consume(){
+      if(!S.alive)return;
+      var any=false;
+      for(var p=0;p<N;p++){
+        var m=S.logs[p][S.commit[p]];if(!m)continue;
+        if(S.seen[m.eid]){
+          if(idem.checked){S.dropped++;log(m.order+' P'+p+'@'+m.off+' redelivered: duplicate dropped','ok')}
+          else{S.applied++;log(m.order+' P'+p+'@'+m.off+' redelivered: applied twice','bad')}
+        }else{S.seen[m.eid]=1;S.processed++;any=true}
+        S.commit[p]++;
+      }
+      if(any){
+        var text=S.processed+' messages processed, offsets committed',last=S.lines[S.lines.length-1];
+        if(last&&last.kind==='proc'){last.t=text;last.ts=new Date().toTimeString().slice(0,8)}else log(text,'','proc');
+      }
+    }
+    function toggleCrash(){
+      if(S.alive){
+        S.alive=false;var n=0;
+        for(var p=0;p<N;p++)if(S.commit[p]>0){S.commit[p]--;S.redo[S.logs[p][S.commit[p]].eid]=1;n++}
+        log('Consumer crashed after processing but before committing '+n+' offsets.','bad');
+        crashBtn.textContent='Restart consumer';
+      }else{
+        S.alive=true;log('Consumer restarted. Resuming from last committed offsets.','ok');crashBtn.textContent='Crash consumer';
+      }
+      render();
+    }
+    function render(){
+      lanesEl.innerHTML=S.logs.map(function(part,p){
+        var start=Math.max(0,part.length-14),msgs=part.slice(start).map(function(m,j){
+          var i=start+j;
+          return '<span class="lm '+(i<S.commit[p]?'done':'wait')+(S.redo[m.eid]?' redo':'')+'" title="'+m.order+', partition '+p+', offset '+m.off+'">'+m.off+'</span>';
+        }).join(''),l=part.length-S.commit[p];
+        return '<div class="lane"><span class="lname">P'+p+'</span><div class="ltrack">'+(msgs||'<span class="empty">empty</span>')+'</div><span class="llag'+(l>8?' hot':'')+'">lag '+l+'</span></div>';
+      }).join('');
+      statsEl.innerHTML=[['Produced',S.produced],['Processed',S.processed],['Consumer lag',lag()],['Duplicates dropped',S.dropped],['Applied twice',S.applied,S.applied?'bad':'']]
+        .map(function(a){return '<div class="lstat '+(a[2]||'')+'"><b>'+a[1]+'</b><span>'+a[0]+'</span></div>'}).join('')+
+        '<div class="lstatus '+(S.alive?'up':'down')+'">'+(S.alive?'● consumer running':'○ consumer down, lag is building')+'</div>';
+      logEl.innerHTML=S.lines.map(function(l){return '<div class="'+l.c+'"><span class="t">'+l.ts+'</span>'+esc(l.t)+'</div>'}).join('');
+    }
+    runBtn.addEventListener('click',function(){running=!running;runBtn.textContent=running?'Pause':'Run'});
+    $('labBurst').addEventListener('click',function(){produce(10);log('10 orders produced (same order always maps to the same partition).');render()});
+    crashBtn.addEventListener('click',toggleCrash);
+    $('labReset').addEventListener('click',reset);
+    idem.addEventListener('change',function(){log(idem.checked?'Idempotency check enabled.':'Idempotency check disabled.');render()});
+    new IntersectionObserver(function(es){inView=es[0].isIntersecting},{threshold:.1}).observe($('lab'));
+    setInterval(function(){
+      if(!running||!inView||document.hidden)return;
+      if(lag()<60)produce(1);
+      consume();render();
+    },800);
+    reset();
   })();
 
   /* ================= java class ================= */
