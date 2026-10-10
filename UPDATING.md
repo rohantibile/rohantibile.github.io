@@ -39,14 +39,11 @@ git push
 | Experience table | `SELECT * FROM experience` |
 | Page title and link preview text | the `<title>` and `og:` lines at the top |
 
-## Swap the intro video
-Put your clip in the `media` folder with these exact names, keeping each file under about 5 MB:
+## Use your own video in the hero
+The hero shows the 3D city by default. To preview a video of yourself, click **Replace video** on the page. To make it permanent, in `index.html` find the line with `id="vid"`, remove `style="display:none"` and add `src="media/intro.mp4"`.
 ```
 ffmpeg -i myvideo.mp4 -c:v libx264 -crf 28 -pix_fmt yuv420p -movflags +faststart media/intro.mp4
-ffmpeg -i myvideo.mp4 -c:v libvpx-vp9 -crf 38 -b:v 0 media/intro.webm
-ffmpeg -ss 1 -i myvideo.mp4 -frames:v 1 media/poster.jpg
 ```
-Portrait 3:4 framing fits the card best.
 
 ## Keep GitHub and the portfolio in sync
 When a number or job changes, update three places the same day: the resume, `index.html`, and the profile `README.md` (and its `assets/impact-*.svg` and `assets/timeline-*.svg` if the numbers or dates changed).

@@ -7,5 +7,5 @@
 To update later: edit or re-upload `index.html` in that repo and commit. Pages redeploys on its own.
 
 ## Before you share the link
-- Replace `media/intro.mp4` and `media/poster.jpg` with your own video and a still frame (same file names; keep both intro.mp4 and intro.webm, or delete the webm line in index.html).
+- The hero is an interactive 3D scene (Three.js, bundled in `vendor/three.min.js`, so no CDN is needed). Keep the `vendor` folder when you upload. `media/poster.jpg` is the fallback for browsers without WebGL.
 - The contact section shows your phone number in plain text. Remove it if you do not want it public.
